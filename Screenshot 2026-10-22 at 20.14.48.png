@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rachel Zheng — Curator &amp; Design Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ballet&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EFECE5;
+    --felt: #D7DEE2;
+    --felt-2: #E1E6E8;
+    --ink: #262624;
+    --ink-soft: #6E6C64;
+    --accent: #8C93C0;
+    --accent-2: #B99AA0;
+    --line: #C7C2B6;
+    --line-felt: #B9C3C8;
+    --max: 1120px;
+    --nav-h: 66px;
+  }
+.hero-button{
+    position: absolute;
+    z-index: 4;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hero-button img{
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform .25s ease, filter .25s ease;
+}
+
+.hero-button:hover img{
+    transform: scale(1.03);
+    filter: brightness(1.04);
+}
+
+.name-button{
+    width: 350px;
+    left: 45px;
+    top: 160px;
+}
+
+  *{ box-sizing: border-box; }
+  html, body{ height: 100%; }
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* home = locked, no page scroll; other pages scroll normally */
+  body.is-home{ overflow: hidden; }
+  body.is-home footer{ display: none; }
+
+  /* paper grain overlay */
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection{ background: var(--accent); color: var(--felt-2); }
+
+  a{ color: var(--ink); }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  h1,h2,h3{
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .cap{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(239,236,229,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .mark{
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: var(--ink);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  nav a{
+    text-decoration: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    position: relative;
+    padding-bottom: 3px;
+  }
+  nav a::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  nav a:hover::after, nav a:focus-visible::after{ transform: scaleX(1); }
+  nav a.active{ color: var(--ink); }
+  nav a.active::after{ transform: scaleX(1); }
+
+  /* ---------- PAGE VISIBILITY ---------- */
+  .page[hidden]{ display: none !important; }
+
+  /* ---------- HOME / HERO (locked, full viewport) ---------- */
+  #page-home{
+    height: calc(100vh - var(--nav-h));
+    display: flex;
+  }
+  #page-home .wrap{
+    display: flex;
+    width: 100%;
+    padding: 22px 32px 28px;
+  }
+ .hero-card{
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #dce7eb;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 40px 30px;
+  cursor: default;
+}
+
+/* Soft extended background */
+.hero-card::before{
+  content: "";
+  position: absolute;
+  inset: -80px;
+  background-image: url("front.jpg");
+  background-size: cover;
+  background-position: center center;
+  filter: blur(35px);
+  transform: scale(1.12);
+  opacity: 0.8;
+  z-index: 0;
+}
+
+/* Clean light overlay */
+.hero-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(235, 242, 245, 0.12);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Main artwork */
+.hero-image{
+   position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+.name-logo{
+    position: absolute;
+    z-index: 3;
+
+    width: 420px;
+    height: auto;
+
+    left: 80px;
+    top: 50px;
+
+    display: block;
+}
+.ripple-layer{
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ripple{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.28);
+
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0;
+
+    animation: ripple-expand 1.8s ease-out forwards;
+}
+
+@keyframes ripple-expand{
+    0%{
+        transform: translate(-50%, -50%) scale(0.15);
+        opacity: 0;
+    }
+
+    12%{
+        opacity: 0.45;
+    }
+
+    100%{
+        transform: translate(-50%, -50%) scale(2.2);
+        opacity: 0;
+    }
+}
+  .hero-top-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+    z-index: 3;
+  }
+  .cursor-glow{
+     position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(170, 185, 210, 0.32) 0%,
+            rgba(170, 185, 210, 0.18) 28%,
+            rgba(170, 185, 210, 0.08) 48%,
+            rgba(170, 185, 210, 0) 72%
+        );
+
+    filter: blur(18px);
+
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    left: 0;
+    top: 0;
+
+    opacity: 0;
+
+    transition: opacity .45s ease;
+
+    z-index: 2;
+  }
+  .hero-scatter{
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  .hero-scatter svg{ width: 100%; height: 100%; display:block; }
+  #scatter-layer-1, #scatter-layer-2{
+    transition: transform .3s ease-out;
+  }
+  h1.name{
+    font-family: "IBM Plex Mono", monospace;
+    position: relative;
+    z-index: 3;
+    font-size: clamp(2.4rem, 6.4vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-align: center;
+    margin: auto 0;
+  }
+  .hero-bottom-row{
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .role-line{
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+    max-width: 34ch;
+  }
+  .hero-year{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    text-align: right;
+    max-width: 26ch;
+  }
+  .hero-hint{
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  /* ---------- INNER PAGES ---------- */
+  .page:not(#page-home){ padding: 72px 0 0; }
+  .section-head{
+    margin-bottom: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .section-head .cap{ display:block; margin-bottom: 10px; }
+  .section-head h2{
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    font-style: italic;
+  }
+  .page-body{ padding-bottom: 88px; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 0.9fr 1.5fr;
+    gap: 56px;
+  }
+  .about-grid p{
+    max-width: 62ch;
+    color: var(--ink);
+    font-size: 1.02rem;
+  }
+  .about-grid p + p{ margin-top: 18px; }
+  .about-note{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    line-height: 2;
+    border-left: 1px solid var(--line);
+    padding-left: 20px;
+  }
+
+  /* ---------- PRACTICE ---------- */
+  .practice-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line-felt);
+    border: 1px solid var(--line-felt);
+  }
+  .practice-card{
+    background: var(--paper);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .swatch{
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(155deg, var(--felt), var(--felt-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .swatch svg{ width: 46%; height: 46%; display:block; }
+  .practice-body{ padding: 22px 22px 26px; }
+  .practice-card h3{
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.3;
+    margin-top: 10px;
+  }
+  .practice-card p{
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-row{
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 28px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+  .exp-row:last-child{ border-bottom: 1px solid var(--line); }
+  .exp-date{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    padding-top: 4px;
+  }
+  .exp-role{ font-size: 1.2rem; font-style: italic; font-family: "IBM Plex Mono", monospace; }
+  .exp-org{
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .exp-bullets{
+    margin: 15px 0 0;
+    padding-left: 18px;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .exp-bullets li{ margin-bottom: 8px; }
+  .exp-bullets li::marker{ color: var(--accent); }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line-felt);
+    border: 1px solid var(--line-felt);
+  }
+  .edu-card{
+    background: var(--felt-2);
+    padding: 26px 24px;
+  }
+  .edu-degree{ font-size: 1.1rem; font-style: italic; font-family: "IBM Plex Mono", monospace; }
+  .edu-school{ color: var(--ink-soft); margin-top: 6px; font-size: 0.95rem; }
+  .edu-dates{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 12px;
+  }
+  .edu-focus{ margin-top: 10px; font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* ---------- SKILLS (object-note style) — lives inside About page ---------- */
+  .skills-block{ margin-top: 72px; }
+  .skills-panel{
+    background: var(--felt-2);
+    border: 1px solid var(--line-felt);
+    padding: 40px;
+    display: block;
+  }
+  .skills-note p{
+    font-size: 0.95rem;
+    color: var(--ink);
+    max-width: 40ch;
+    margin: 0 0 14px;
+  }
+  .skills-note p:last-child{ margin-bottom: 0; }
+  .skills-numbered{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .skills-numbered li{
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line-felt);
+  }
+  .skills-numbered li:last-child{ border-bottom: 1px solid var(--line-felt); }
+  .skills-numbered .num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+  }
+  .skills-numbered .label{ font-size: 0.92rem; }
+  .skills-numbered .label b{
+    display:block;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .skills-numbered .label span{
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-inner{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .contact-lede{
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    max-width: 22ch;
+    line-height: 1.3;
+  }
+  .contact-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .contact-list li{
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.94rem;
+  }
+  .contact-list li:last-child{ border-bottom: 1px solid var(--line); }
+  .contact-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 2px;
+  }
+  .contact-list a{ text-decoration: none; }
+  .contact-list a:hover{ color: var(--accent); }
+
+  footer{
+    padding: 30px 0 44px;
+    border-top: 1px solid var(--line);
+  }
+  footer .wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer p{
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    #page-home .wrap{ padding: 16px 20px 20px; }
+    .hero-card{ padding: 24px 20px 22px; }
+    .about-grid{ grid-template-columns: 1fr; gap: 26px; }
+    .about-note{ border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 18px; }
+    .practice-grid{ grid-template-columns: 1fr; }
+    .exp-row{ grid-template-columns: 1fr; gap: 8px; }
+    .edu-grid{ grid-template-columns: 1fr; }
+    .skills-panel{ grid-template-columns: 1fr; padding: 26px; }
+    .contact-inner{ grid-template-columns: 1fr; gap: 30px; }
+    .hero-bottom-row{ flex-direction: column; align-items: flex-start; }
+    .hero-year{ text-align: left; }
+    nav ul{ gap: 14px; }
+    .nav-inner{ flex-direction: column; align-items: flex-start; gap: 12px; padding: 14px 20px; }
+    .wrap{ padding: 0 20px; }
+  }
+  .hero-button{
+    position: absolute;
+    z-index: 4;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hero-button img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.curator-button{
+    width: 350px;
+    right: 120px;
+    top: 40px;
+}
+
+.spatial-button{
+    width: 250px;
+    right: 70px;
+    top: 200px;
+}
+
+.graphic-button{
+    width: 280px;
+    right: 200px;
+    bottom: 50px;
+}
+
+/* =========================
+   PRACTICE PAGE
+   ========================= */
+
+.practice-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: none;
+  border: none;
+  gap: 50px 24px;
+  margin-top: 40px;
+  padding-bottom: 80px;
+}
+
+.practice-project{
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.practice-image{
+  width: 100%;
+  overflow: hidden;
+  background: #eeeeee;
+}
+
+.practice-image img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.practice-project:hover .practice-image img{
+  transform: scale(1.02);
+}
+
+.practice-info{
+  margin-top: 12px;
+}
+
+.practice-info h3{
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.practice-info p{
+  margin: 5px 0 0;
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+
+
+
+
+/* =========================
+   PROJECT DETAIL
+   ========================= */
+.project-detail[hidden]{ display:none !important; }
+.project-back{
+  display:inline-block;
+  margin-top:28px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  text-decoration:none;
+}
+.project-back:hover{ color:var(--ink); }
+.project-cover{
+  margin-top:22px;
+  background:#eeeeee;
+  overflow:hidden;
+}
+.project-cover img{
+  width:100%;
+  max-height:72vh;
+  object-fit:cover;
+  display:block;
+}
+.project-layout{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:16px 64px;
+  margin-top:40px;
+}
+.project-head{ grid-column:1 / -1; }
+.project-head .cap{ display:block; margin-bottom:10px; }
+.project-head h2{
+  font-size:clamp(1.7rem, 3.6vw, 2.6rem);
+  font-weight:400;
+  line-height:1.15;
+  max-width:24ch;
+}
+.project-text p{
+  max-width:60ch;
+  font-size:1.02rem;
+  margin:0 0 18px;
+}
+.project-facts{
+  margin:0;
+  align-self:start;
+  border-top:1px solid var(--line);
+}
+.project-facts div{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+  font-size:0.92rem;
+}
+.project-facts dt{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.7rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  padding-top:3px;
+}
+.project-facts dd{ margin:0; text-align:right; }
+.project-gallery{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:24px;
+  margin-top:48px;
+}
+.project-gallery:empty{ display:none; }
+.project-gallery img{ width:100%; display:block; }
+.project-gallery figcaption{
+  margin-top:8px;
+  font-size:12px;
+  opacity:0.55;
+}
+.project-pager{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:64px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+.project-pager a{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  color:inherit;
+  text-decoration:none;
+  max-width:46%;
+}
+.project-pager a:last-child{ text-align:right; align-items:flex-end; }
+.project-pager a:hover span:last-child{ text-decoration:underline; }
+@media (max-width:860px){
+  .project-layout{ grid-template-columns:1fr; }
+  .project-gallery{ grid-template-columns:1fr; }
+}
+
+
+.placeholder-cover{
+  width:100%;
+  aspect-ratio:4 / 3;
+  background:linear-gradient(155deg, var(--felt), var(--felt-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.placeholder-cover.tall{ aspect-ratio:16 / 8; }
+.project-list[hidden]{ display:none !important; }
+
+.project-cover.plate img{ max-height:none; object-fit:contain; background:#e6e6e6; }
+.project-cover.plate a{ display:block; cursor:zoom-in; }
+.project-gallery.stack{ grid-template-columns:1fr; gap:36px; }
+.project-gallery.stack a{ display:block; cursor:zoom-in; }
+.project-gallery figure{ margin:0; }
+</style>
+</head>
+<body class="is-home">
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#home" class="mark" data-nav="home">Rachel Zheng</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#about" data-nav="about">About</a></li>
+        <li><a href="#practice" data-nav="practice">Curation</a></li>
+        <li><a href="#experience" data-nav="experience">Experience</a></li>
+        <li><a href="#education" data-nav="education">Education</a></li>
+        <li><a href="#contact" data-nav="contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HOME (no-scroll, mouse-interactive) -->
+  <section class="page" id="page-home">
+    <div class="wrap">
+      <div class="hero-card" id="heroCard">
+        <img class="hero-image" src="front.jpg" alt="Rachel Zheng">
+        <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+        <div class="ripple-layer" id="rippleLayer" aria-hidden="true"></div>
+  <div class="hero-card" id="heroCard">
+
+    <img class="hero-image" src="front.jpg" alt="">
+
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <div class="ripple-layer" id="rippleLayer" aria-hidden="true"></div>
+
+
+    <!-- Curator button -->
+    <a href="#practice"
+       data-nav="practice"
+       class="hero-button curator-button">
+
+        <img src="curator.png" alt="Curator">
+
+    </a>
+
+    <!-- Spatial Projects button -->
+<a href="#spatial"
+   data-nav="spatial"
+   class="hero-button spatial-button">
+    <img src="spatial.png" alt="Spatial Projects">
+</a>
+
+<!-- Graphic Designer button -->
+<a href="#graphic"
+   data-nav="graphic"
+   class="hero-button graphic-button">
+    <img src="graphic.png" alt="Graphic Designer">
+</a>
+
+
+</div>
+
+        <div class="hero-top-row">
+    
+    
+        </div>
+
+   <a href="#about" data-nav="about" class="hero-button name-button">
+    <img src="nametag.png" alt="Rachel Zheng">
+</a>
+
+        <div class="hero-bottom-row">
+
+        </div>
+
+  
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT (includes Materials & Methods) -->
+  <section class="page" id="page-about" hidden>
+    <div class="wrap page-body">
+      <div class="section-head">
+        <span class="cap">Note 01</span>
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>Rachel Zheng works at the intersection of exhibition-making, design, and communications. She currently teaches Theory and History of Art and Design at Rhode Island School of Design, and leads ARcadia Lab, a curatorial initiative she founded to explore how complex ideas become public-facing experiences.</p>
+          <p>Her practice draws on a background in marketing and PR as much as curatorial research — she works fluently across content strategy, visual systems, and collaborative production, moving between institutional galleries in Providence, Shanghai, Beijing, Berlin, and Hangzhou.</p>
+        </div>
+        <div class="about-note">
+          Mandarin / English<br>
+          China Academy of Art → RISD<br>
+          Curation · Design · Communications<br>
+          Based in Providence, RI
+        </div>
+      </div>
+
+      <div class="skills-block">
+        <div class="section-head">
+          <span class="cap">Note 01b</span>
+          <h2>Materials &amp; methods</h2>
+        </div>
+        <div class="skills-panel">
+          <ul class="skills-numbered">
+            <li>
+              <span class="num">01</span>
+              <span class="label"><b>Exhibition development &amp; curatorial practice</b><span>Concept development, content planning, spatial and visual integration, academic programming</span></span>
+            </li>
+            <li>
+              <span class="num">02</span>
+              <span class="label"><b>Content strategy &amp; communications</b><span>Press releases, project statements, curatorial writing, brand messaging</span></span>
+            </li>
+            <li>
+              <span class="num">03</span>
+              <span class="label"><b>Visual &amp; graphic design</b><span>Adobe Creative Suite, campaign visuals, digital and print collateral, AIGC-assisted tools</span></span>
+            </li>
+            <li>
+              <span class="num">04</span>
+              <span class="label"><b>Cross-cultural &amp; bilingual communication</b><span>Mandarin / English, liaison between artists, curators, and institutional partners</span></span>
+            </li>
+            <li>
+              <span class="num">05</span>
+              <span class="label"><b>Project &amp; stakeholder management</b><span>Budget tracking, vendor and partner coordination, cross-functional leadership</span></span>
+            </li>
+            <li>
+              <span class="num">06</span>
+              <span class="label"><b>Teaching &amp; academic research</b><span>Lecture design, curriculum development, art and design history pedagogy</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="page" id="page-practice" hidden>
+   <div class="wrap page-body">
+
+    <div class="project-list" id="practiceList">
+      <div class="section-head">
+        <span class="cap">Selected Projects</span>
+        <h2>Practice</h2>
+      </div>
+
+      <div class="practice-grid">
+
+    <a class="practice-project" href="#practice/planetarity" data-project="planetarity">
+      <div class="practice-image">
+        <img src="planetarity.jpg" alt="Planetarity: Friction, Fossils, and the Future">
+      </div>
+      <div class="practice-info">
+        <h3>Planetarity: Friction, Fossils, and the Future</h3>
+        <p>Curatorial Project · 2025</p>
+      </div>
+    </a>
+
+    <a class="practice-project" href="#practice/after-the-waves" data-project="after-the-waves">
+      <div class="practice-image">
+        <img src="after.jpg" alt="After the Waves and the Dusk">
+      </div>
+      <div class="practice-info">
+        <h3>After the Waves and the Dusk</h3>
+        <p>Curatorial Project · 2025</p>
+      </div>
+    </a>
+
+    <a class="practice-project" href="#practice/e-nnui" data-project="e-nnui">
+      <div class="practice-image">
+        <img src="ennui.jpg" alt="E-nnui">
+      </div>
+      <div class="practice-info">
+        <h3>E-nnui</h3>
+        <p>Curatorial Project · 2025</p>
+      </div>
+    </a>
+
+    <a class="practice-project" href="#practice/shades-of-blue" data-project="shades-of-blue">
+      <div class="practice-image">
+        <img src="shades-of-blue.jpg" alt="Shades of Blue">
+      </div>
+      <div class="practice-info">
+        <h3>Shades of Blue</h3>
+        <p>Curatorial Project · 2025</p>
+      </div>
+    </a>
+
+      </div>
+    </div>
+
+  <!-- ===== PROJECT: Planetarity: Friction, Fossils, and the Future ===== -->
+  <article class="project-detail" id="project-planetarity" hidden>
+    <a class="project-back" href="#practice" data-nav="practice">← Curation</a>
+
+    <div class="project-cover">
+      <img src="planetarity.jpg" alt="Planetarity: Friction, Fossils, and the Future">
+    </div>
+
+    <div class="project-layout">
+      <header class="project-head">
+        <span class="cap">Curatorial Project · 2025</span>
+        <h2>Planetarity: Friction, Fossils, and the Future</h2>
+      </header>
+
+      <!-- EDIT: 在这里替换成这个展览的介绍文字 -->
+      <div class="project-text">
+        <p>Exhibition introduction goes here. Replace this paragraph with a short statement on the concept, themes, and curatorial approach of the exhibition.</p>
+        <p>Add a second paragraph if you would like to say more about the works, artists, or the spatial and visual design.</p>
+      </div>
+
+      <!-- EDIT: 展览信息 -->
+      <dl class="project-facts">
+        <div><dt>Year</dt><dd>2025</dd></div>
+        <div><dt>Role</dt><dd>Curator</dd></div>
+        <div><dt>Venue</dt><dd>—</dd></div>
+        <div><dt>Dates</dt><dd>—</dd></div>
+        <div><dt>Artists</dt><dd>—</dd></div>
+      </dl>
+    </div>
+
+    <!-- EDIT: 更多展览图片,复制下面的 figure 即可添加 -->
+    <div class="project-gallery">
+      <!--
+      <figure><img src="planetarity-2.jpg" alt=""><figcaption>Installation view</figcaption></figure>
+      -->
+    </div>
+
+    <nav class="project-pager" aria-label="Other projects">
+      <a href="#practice/shades-of-blue" data-project="shades-of-blue"><span class="cap">Previous</span><span>Shades of Blue</span></a>
+      <a href="#practice/after-the-waves" data-project="after-the-waves"><span class="cap">Next</span><span>After the Waves and the Dusk</span></a>
+    </nav>
+  </article>
+
+  <!-- ===== PROJECT: After the Waves and the Dusk ===== -->
+  <article class="project-detail" id="project-after-the-waves" hidden>
+    <a class="project-back" href="#practice" data-nav="practice">← Curation</a>
+
+    <div class="project-cover">
+      <img src="after.jpg" alt="After the Waves and the Dusk">
+    </div>
+
+    <div class="project-layout">
+      <header class="project-head">
+        <span class="cap">Curatorial Project · 2025</span>
+        <h2>After the Waves and the Dusk</h2>
+      </header>
+
+      <!-- EDIT: 在这里替换成这个展览的介绍文字 -->
+      <div class="project-text">
+        <p>Exhibition introduction goes here. Replace this paragraph with a short statement on the concept, themes, and curatorial approach of the exhibition.</p>
+        <p>Add a second paragraph if you would like to say more about the works, artists, or the spatial and visual design.</p>
+      </div>
+
+      <!-- EDIT: 展览信息 -->
+      <dl class="project-facts">
+        <div><dt>Year</dt><dd>2025</dd></div>
+        <div><dt>Role</dt><dd>Curator</dd></div>
+        <div><dt>Venue</dt><dd>—</dd></div>
+        <div><dt>Dates</dt><dd>—</dd></div>
+        <div><dt>Artists</dt><dd>—</dd></div>
+      </dl>
+    </div>
+
+    <!-- EDIT: 更多展览图片,复制下面的 figure 即可添加 -->
+    <div class="project-gallery">
+      <!--
+      <figure><img src="after-the-waves-2.jpg" alt=""><figcaption>Installation view</figcaption></figure>
+      -->
+    </div>
+
+    <nav class="project-pager" aria-label="Other projects">
+      <a href="#practice/planetarity" data-project="planetarity"><span class="cap">Previous</span><span>Planetarity: Friction, Fossils, and the Future</span></a>
+      <a href="#practice/e-nnui" data-project="e-nnui"><span class="cap">Next</span><span>E-nnui</span></a>
+    </nav>
+  </article>
+
+  <!-- ===== PROJECT: E-nnui ===== -->
+  <article class="project-detail" id="project-e-nnui" hidden>
+    <a class="project-back" href="#practice" data-nav="practice">← Curation</a>
+
+    <div class="project-cover">
+      <img src="ennui.jpg" alt="E-nnui">
+    </div>
+
+    <div class="project-layout">
+      <header class="project-head">
+        <span class="cap">Curatorial Project · 2025</span>
+        <h2>E-nnui</h2>
+      </header>
+
+      <!-- EDIT: 在这里替换成这个展览的介绍文字 -->
+      <div class="project-text">
+        <p>Exhibition introduction goes here. Replace this paragraph with a short statement on the concept, themes, and curatorial approach of the exhibition.</p>
+        <p>Add a second paragraph if you would like to say more about the works, artists, or the spatial and visual design.</p>
+      </div>
+
+      <!-- EDIT: 展览信息 -->
+      <dl class="project-facts">
+        <div><dt>Year</dt><dd>2025</dd></div>
+        <div><dt>Role</dt><dd>Curator</dd></div>
+        <div><dt>Venue</dt><dd>—</dd></div>
+        <div><dt>Dates</dt><dd>—</dd></div>
+        <div><dt>Artists</dt><dd>—</dd></div>
+      </dl>
+    </div>
+
+    <!-- EDIT: 更多展览图片,复制下面的 figure 即可添加 -->
+    <div class="project-gallery">
+      <!--
+      <figure><img src="e-nnui-2.jpg" alt=""><figcaption>Installation view</figcaption></figure>
+      -->
+    </div>
+
+    <nav class="project-pager" aria-label="Other projects">
+      <a href="#practice/after-the-waves" data-project="after-the-waves"><span class="cap">Previous</span><span>After the Waves and the Dusk</span></a>
+      <a href="#practice/shades-of-blue" data-project="shades-of-blue"><span class="cap">Next</span><span>Shades of Blue</span></a>
+    </nav>
+  </article>
+
+  <!-- ===== PROJECT: Shades of Blue ===== -->
+  <article class="project-detail" id="project-shades-of-blue" hidden>
+    <a class="project-back" href="#practice" data-nav="practice">← Curation</a>
+
+    <div class="project-cover">
+      <img src="shades-of-blue.jpg" alt="Shades of Blue">
+    </div>
+
+    <div class="project-layout">
+      <header class="project-head">
+        <span class="cap">Curatorial Project · 2025</span>
+        <h2>Shades of Blue</h2>
+      </header>
+
+      <!-- EDIT: 在这里替换成这个展览的介绍文字 -->
+      <div class="project-text">
+        <p>Exhibition introduction goes here. Replace this paragraph with a short statement on the concept, themes, and curatorial approach of the exhibition.</p>
+        <p>Add a second paragraph if you would like to say more about the works, artists, or the spatial and visual design.</p>
+      </div>
+
+      <!-- EDIT: 展览信息 -->
+      <dl class="project-facts">
+        <div><dt>Year</dt><dd>2025</dd></div>
+        <div><dt>Role</dt><dd>Curator</dd></div>
+        <div><dt>Venue</dt><dd>—</dd></div>
+        <div><dt>Dates</dt><dd>—</dd></div>
+        <div><dt>Artists</dt><dd>—</dd></div>
+      </dl>
+    </div>
+
+    <!-- EDIT: 更多展览图片,复制下面的 figure 即可添加 -->
+    <div class="project-gallery">
+      <!--
+      <figure><img src="shades-of-blue-2.jpg" alt=""><figcaption>Installation view</figcaption></figure>
+      -->
+    </div>
+
+    <nav class="project-pager" aria-label="Other projects">
+      <a href="#practice/e-nnui" data-project="e-nnui"><span class="cap">Previous</span><span>E-nnui</span></a>
+      <a href="#practice/planetarity" data-project="planetarity"><span class="cap">Next</span><span>Planetarity: Friction, Fossils, and the Future</span></a>
+    </nav>
+  </article>
+
+   </div>
+  </section>
+
+  <!-- SPATIAL PROJECTS -->
+<section class="page" id="page-spatial" hidden>
+  <div class="wrap page-body">
+    <div class="project-list">
+      <div class="section-head"><span class="cap">Selected Works</span><h2>Spatial Projects</h2></div>
+      <div class="practice-grid">
+        <a class="practice-project" href="#spatial/ooo-e-hypermarket" data-project="spatial/ooo-e-hypermarket">
+          <div class="practice-image"><img src="images/ooo-e-cover.jpg" alt="O-O-O-E Hypermarket"></div>
+          <div class="practice-info"><h3>O-O-O-E Hypermarket</h3><p>Spatial Project · March 2023</p></div>
+        </a>
+        <a class="practice-project" href="#spatial/megalith" data-project="spatial/megalith">
+          <div class="practice-image"><img src="images/megalith-cover.jpg" alt="The Megalith In Deep-time"></div>
+          <div class="practice-info"><h3>The Megalith In Deep-time</h3><p>Spatial Project · June 2023</p></div>
+        </a>
+        <a class="practice-project" href="#spatial/academic-jungle" data-project="spatial/academic-jungle">
+          <div class="practice-image"><img src="images/jungle-cover.jpg" alt="Academic Jungle"></div>
+          <div class="practice-info"><h3>Academic Jungle</h3><p>Spatial Project</p></div>
+        </a>
+      </div>
+    </div>
+    <article class="project-detail" id="project-ooo-e-hypermarket" hidden>
+      <a class="project-back" href="#spatial" data-nav="spatial">← Spatial Projects</a>
+      <div class="project-cover plate"><a href="images/ooo-e-1.jpg" target="_blank" rel="noopener"><img src="images/ooo-e-1.jpg" alt="O-O-O-E Hypermarket"></a></div>
+      <div class="project-layout">
+        <header class="project-head"><span class="cap">Spatial Project · March 2023</span><h2>O-O-O-E Hypermarket</h2></header>
+        <div class="project-text"><p>Commissioned to curate the unused space at the top of the Oriental Pearl Tower, a Shanghai landmark that has been losing its appeal for young people. The project sets out to break the spatial status of the Black Cube and turn a conventional science-popularization show into a scientific and humanistic exhibition with aesthetic and educational weight. Its theme is the future department store and supermarket, an exhibition that draws people in and prompts them to think about how technological change shapes humanity and society.</p><p>Research came first: a thematic map of the tower and the routes around it, a timeline of its history, and field research inside the dome (Floors 1 and 2). Earlier exhibitions there had followed the same science-fiction formula of dark interiors, cold light bands, and low-grade content, so the team designed new light strips based on the tower&rsquo;s own lighting system and worked with programmers on the lighting.</p><p>Every exhibit is designed as a shelving system, named after its inspiration: Container, Pallets, Suspension, Gravity, Loft, Rotating, and Sailing. Each is mobile and changeable, and can be shown alone or in sets. The ring-shaped dome becomes an exhibition with no beginning and no end, so visitors choose their own route. The elevator, fitted with silver aluminium profiles, sound, and air blowers, gives a sense of travel up to the 339-metre dome.</p></div>
+        <dl class="project-facts"><div><dt>Venue</dt><dd>Oriental Pearl Tower, Shanghai, China</dd></div><div><dt>Time</dt><dd>March 2023</dd></div><div><dt>Role</dt><dd>Curator &amp; Designer</dd></div><div><dt>Applications</dt><dd>Adobe Illustrator, InDesign, C4D</dd></div></dl>
+      </div>
+      <div class="project-gallery stack"><figure><a href="images/ooo-e-2.jpg" target="_blank" rel="noopener"><img src="images/ooo-e-2.jpg" alt="Site research, history timeline, and circulation design" loading="lazy"></a><figcaption>Site research, history timeline, and circulation design</figcaption></figure><figure><a href="images/ooo-e-4.jpg" target="_blank" rel="noopener"><img src="images/ooo-e-4.jpg" alt="Exhibit design and exhibition space design" loading="lazy"></a><figcaption>Exhibit design and exhibition space design</figcaption></figure></div>
+      <nav class="project-pager" aria-label="Other projects">
+        <a href="#spatial/academic-jungle" data-project="spatial/academic-jungle"><span class="cap">Previous</span><span>Academic Jungle</span></a>
+        <a href="#spatial/megalith" data-project="spatial/megalith"><span class="cap">Next</span><span>The Megalith In Deep-time</span></a>
+      </nav>
+    </article>
+
+    <article class="project-detail" id="project-megalith" hidden>
+      <a class="project-back" href="#spatial" data-nav="spatial">← Spatial Projects</a>
+      <div class="project-cover plate"><a href="images/megalith-1.jpg" target="_blank" rel="noopener"><img src="images/megalith-1.jpg" alt="The Megalith In Deep-time"></a></div>
+      <div class="project-layout">
+        <header class="project-head"><span class="cap">Spatial Project · June 2023</span><h2>The Megalith In Deep-time</h2></header>
+        <div class="project-text"><p>An exhibition of experiments on life and time. The curatorial team contacted Prof. You Hailu of the Chinese Academy of Vertebrate Biology, who recommended a paper on dinosaur restoration as inspiration. The team then gathered artworks connected to deep time, life, dinosaur restoration, and geology, and organized the show in two parts: a Documentary Exhibition and a Video Exhibition.</p><p>Deep time, a concept developed by the Scottish geologist James Hutton in the late 18th century, helps put the short span of human existence in perspective and highlights the changing nature of the planet.</p><p>The centrepiece is a glowing, suspended white halo built from aluminium profiles, covered with white Dupont paper, and lit from inside. Films can be projected on its inside or outside, or it can stand alone as a giant light. Twelve groups of profiles bend together into an oval, which from above corresponds to the twelve &lsquo;fengshui&rsquo; branches of traditional Chinese culture, a metaphor for the relationship between time and geology. A seesaw-inspired exhibit holds literature and a projector at its balance point, with curtains at each end showing two films at once. In the video area, films play on a seven-metre-high curtain, and visitors can enter a tower and look up at the top screen.</p></div>
+        <dl class="project-facts"><div><dt>Venue</dt><dd>China Academy of Art (Liangzhu Campus)</dd></div><div><dt>Time</dt><dd>June 2023</dd></div><div><dt>Role</dt><dd>Curator &amp; Designer</dd></div><div><dt>Applications</dt><dd>Adobe Illustrator, InDesign, Blender, SketchUp</dd></div></dl>
+      </div>
+      <div class="project-gallery stack"><figure><a href="images/megalith-2.jpg" target="_blank" rel="noopener"><img src="images/megalith-2.jpg" alt="Installation structure, seesaw exhibit, and Documentary Exhibition" loading="lazy"></a><figcaption>Installation structure, seesaw exhibit, and Documentary Exhibition</figcaption></figure><figure><a href="images/megalith-3.jpg" target="_blank" rel="noopener"><img src="images/megalith-3.jpg" alt="Video Exhibition installation" loading="lazy"></a><figcaption>Video Exhibition installation</figcaption></figure></div>
+      <nav class="project-pager" aria-label="Other projects">
+        <a href="#spatial/ooo-e-hypermarket" data-project="spatial/ooo-e-hypermarket"><span class="cap">Previous</span><span>O-O-O-E Hypermarket</span></a>
+        <a href="#spatial/academic-jungle" data-project="spatial/academic-jungle"><span class="cap">Next</span><span>Academic Jungle</span></a>
+      </nav>
+    </article>
+
+    <article class="project-detail" id="project-academic-jungle" hidden>
+      <a class="project-back" href="#spatial" data-nav="spatial">← Spatial Projects</a>
+      <div class="project-cover plate"><a href="images/jungle-1.jpg" target="_blank" rel="noopener"><img src="images/jungle-1.jpg" alt="Academic Jungle"></a></div>
+      <div class="project-layout">
+        <header class="project-head"><span class="cap">Spatial Project</span><h2>Academic Jungle</h2></header>
+        <div class="project-text"><p>A self-curated art event celebrating the fifth anniversary of Westlake University in China, conceived as a playful academic exchange. Over 20 exhibits of different forms and functions were positioned across the field. They work as versatile platforms that can host film screenings and act as independent projection rooms.</p><p>The exhibits also create discrete rooms within the public exhibition area, giving visitors a private, secluded space for introspection whenever they want one. The project is used as a case study in research on how exhibition spaces become homogenized, and how a new curatorial space can answer that.</p></div>
+        <dl class="project-facts"><div><dt>Venue</dt><dd>Westlake University, China</dd></div><div><dt>Role</dt><dd>Curator</dd></div></dl>
+      </div>
+      <div class="project-gallery stack"></div>
+      <nav class="project-pager" aria-label="Other projects">
+        <a href="#spatial/megalith" data-project="spatial/megalith"><span class="cap">Previous</span><span>The Megalith In Deep-time</span></a>
+        <a href="#spatial/ooo-e-hypermarket" data-project="spatial/ooo-e-hypermarket"><span class="cap">Next</span><span>O-O-O-E Hypermarket</span></a>
+      </nav>
+    </article>
+
+  </div>
+</section>
+
+<!-- GRAPHIC DESIGN -->
+<section class="page" id="page-graphic" hidden>
+  <div class="wrap page-body">
+    <div class="project-list">
+      <div class="section-head"><span class="cap">Selected Works</span><h2>Graphic Design</h2></div>
+      <div class="practice-grid">
+        <a class="practice-project" href="#graphic/fiber" data-project="graphic/fiber">
+          <div class="practice-image"><img src="images/fiber-cover.jpg" alt="Myths and Reality about Fiber"></div>
+          <div class="practice-info"><h3>Myths and Reality about Fiber</h3><p>Graphic Design · May 2022</p></div>
+        </a>
+        <a class="practice-project" href="#graphic/ooo-e-chronicle" data-project="graphic/ooo-e-chronicle">
+          <div class="practice-image"><img src="images/ooo-e-graphic-cover.jpg" alt="O-O-O-E Hypermarket: Chronicle, Labels &amp;amp; Curatorial Book"></div>
+          <div class="practice-info"><h3>O-O-O-E Hypermarket: Chronicle, Labels &amp; Curatorial Book</h3><p>Graphic Design · March 2023</p></div>
+        </a>
+      </div>
+    </div>
+    <article class="project-detail" id="project-fiber" hidden>
+      <a class="project-back" href="#graphic" data-nav="graphic">← Graphic Design</a>
+      <div class="project-cover plate"><a href="images/fiber-1.jpg" target="_blank" rel="noopener"><img src="images/fiber-1.jpg" alt="Myths and Reality about Fiber"></a></div>
+      <div class="project-layout">
+        <header class="project-head"><span class="cap">Graphic Design · May 2022</span><h2>Myths and Reality about Fiber</h2></header>
+        <div class="project-text"><p>Graphic design, content and illustration, and information visualization. Myth is a collective imagination and a way of speaking in a collective language. The many goddesses of weaving became the original linguistic expressions that shaped the art of fiber and the relationships between women, and weaving has since become a social metaphor and a universal ideology.</p><p>Our group started from the 100 chapters of mythology, using different categorization techniques to look for hidden relationships between them and to map them across regions and stages. The plate is divided into five major panels plus illustrations of sun, moon, and border: one hundred Eastern and one hundred Western myths, an extension of thinking across music, opera, fairy tales, and religious stories, the intentional objects and behaviors used in the myths, and the application and development of fiber practice. The sun illustration holds three types of goddesses from Western mythology, the moon holds hand-drawn animals and constellations, and the border carries hand-drawn goddesses with classic excerpts from the myths.</p></div>
+        <dl class="project-facts"><div><dt>Time</dt><dd>May 2022</dd></div><div><dt>Role</dt><dd>Designer</dd></div><div><dt>Applications</dt><dd>Adobe Illustrator, Photoshop</dd></div></dl>
+      </div>
+      <div class="project-gallery stack"></div>
+      <nav class="project-pager" aria-label="Other projects">
+        <a href="#graphic/ooo-e-chronicle" data-project="graphic/ooo-e-chronicle"><span class="cap">Previous</span><span>O-O-O-E Hypermarket: Chronicle, Labels &amp; Curatorial Book</span></a>
+        <a href="#graphic/ooo-e-chronicle" data-project="graphic/ooo-e-chronicle"><span class="cap">Next</span><span>O-O-O-E Hypermarket: Chronicle, Labels &amp; Curatorial Book</span></a>
+      </nav>
+    </article>
+
+    <article class="project-detail" id="project-ooo-e-chronicle" hidden>
+      <a class="project-back" href="#graphic" data-nav="graphic">← Graphic Design</a>
+      <div class="project-cover plate"><a href="images/ooo-e-3.jpg" target="_blank" rel="noopener"><img src="images/ooo-e-3.jpg" alt="O-O-O-E Hypermarket: Chronicle, Labels &amp;amp; Curatorial Book"></a></div>
+      <div class="project-layout">
+        <header class="project-head"><span class="cap">Graphic Design · March 2023</span><h2>O-O-O-E Hypermarket: Chronicle, Labels &amp; Curatorial Book</h2></header>
+        <div class="project-text"><p>The graphic and editorial system behind the O-O-O-E Hypermarket exhibition, built in five steps. First, a fictional sci-fi chronicle in which the Pearl of the Orient is an important building holding many events. Second, an illustrated version of that chronicle. Third, a backstory for each piece of merchandise drawn from the chronicle, with its own timeline illustration. Fourth, virtual labels for the merchandise. Fifth, the curatorial book that gathers it all.</p></div>
+        <dl class="project-facts"><div><dt>Time</dt><dd>March 2023</dd></div><div><dt>Role</dt><dd>Curator &amp; Designer</dd></div><div><dt>Applications</dt><dd>Adobe Illustrator, InDesign, C4D</dd></div></dl>
+      </div>
+      <div class="project-gallery stack"></div>
+      <nav class="project-pager" aria-label="Other projects">
+        <a href="#graphic/fiber" data-project="graphic/fiber"><span class="cap">Previous</span><span>Myths and Reality about Fiber</span></a>
+        <a href="#graphic/fiber" data-project="graphic/fiber"><span class="cap">Next</span><span>Myths and Reality about Fiber</span></a>
+      </nav>
+    </article>
+
+  </div>
+</section>
+
+  <!-- EXPERIENCE -->
+  <section class="page" id="page-experience" hidden>
+    <div class="wrap page-body">
+      <div class="section-head">
+        <span class="cap">Note 03</span>
+        <h2>Experience</h2>
+      </div>
+
+      <div class="exp-row">
+        <span class="exp-date">Sep 2025 — Present</span>
+        <div>
+          <p class="exp-role">Lecturer</p>
+          <p class="exp-org">Rhode Island School of Design, Providence, RI</p>
+          <ul class="exp-bullets">
+            <li>Teach Theory and History of Art and Design I, delivering lectures on global artistic traditions across art, architecture, and design history, with focus on intersections of race, gender, labor, technology, and colonialism.</li>
+            <li>Participate in academic symposia and faculty research discussions, contributing to curriculum development and pedagogical exchange.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <span class="exp-date">Feb 2026 — May 2026</span>
+        <div>
+          <p class="exp-role">Marketing Designer Intern</p>
+          <p class="exp-org">DiDi, Shanghai, China</p>
+          <ul class="exp-bullets">
+            <li>Designed visual assets for marketing campaigns and brand communications — including banners, H5 landing pages, and social media posters — collaborating with operations teams to deliver milestone-aligned campaign visuals across multiple platforms.</li>
+            <li>Tracked digital platform trends and translated trending content into creative visual assets, using design software and AIGC tools to improve design efficiency and content performance.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <span class="exp-date">Sep 2025 — Jan 2026</span>
+        <div>
+          <p class="exp-role">Curator (Seasonal)</p>
+          <p class="exp-org">Gelman Gallery, RISD Museum, Providence, RI</p>
+          <ul class="exp-bullets">
+            <li>Led narrative development and content planning for an interdisciplinary exhibition, translating complex themes into accessible curatorial frameworks; integrated content, visual design, and spatial layout, and organized academic programming to drive cross-disciplinary engagement.</li>
+            <li>Managed exhibition communications (press releases, project statements) and coordinated media outreach and public programs.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <span class="exp-date">May 2025 — Aug 2025</span>
+        <div>
+          <p class="exp-role">Gallery Assistant Intern</p>
+          <p class="exp-org">Hua International, Beijing &amp; Berlin</p>
+          <ul class="exp-bullets">
+            <li>Coordinated cross-regional exhibition projects, aligning photography, design, and PR resources across proposals and presentations; served as bilingual liaison among artists, curators, and partners to ensure efficient cross-border project delivery.</li>
+            <li>Led institutional communications and social media strategy, including day-to-day social media operations, to grow brand visibility and audience engagement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <span class="exp-date">Oct 2021 — Feb 2022</span>
+        <div>
+          <p class="exp-role">Exhibition Assistant (Part-time)</p>
+          <p class="exp-org">Zhejiang Art Museum, Hangzhou, China</p>
+          <ul class="exp-bullets">
+            <li>Supported exhibition research, content planning, and curatorial writing for large-scale institutional collaborations.</li>
+            <li>Served as liaison between international artists and curatorial teams, supporting installation, post-opening coordination, budget tracking, and archival management for exhibition publications.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="page" id="page-education" hidden>
+    <div class="wrap page-body">
+      <div class="section-head">
+        <span class="cap">Note 04</span>
+        <h2>Education</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu-card">
+          <p class="edu-degree">Master of Arts</p>
+          <p class="edu-school">Rhode Island School of Design</p>
+          <p class="edu-dates">Sep 2024 — June 2026</p>
+          <p class="edu-focus">Global Arts and Cultures, Liberal Arts Division</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-degree">Bachelor of Arts</p>
+          <p class="edu-school">China Academy of Art</p>
+          <p class="edu-dates">Sep 2020 — June 2024</p>
+          <p class="edu-focus">Art and Technology, Innovation Design Division</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="page-contact" hidden>
+    <div class="wrap page-body">
+      <div class="section-head">
+        <span class="cap">Note 05</span>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact-inner">
+        <p class="contact-lede">Open to curatorial collaborations, teaching opportunities, and design projects.</p>
+        <ul class="contact-list">
+          <li><span class="contact-label">Email</span><a href="mailto:rachellyzheng77@gmail.com">rachellyzheng77@gmail.com</a></li>
+          <li><span class="contact-label">Phone</span><a href="tel:+14013466885">401-346-6885</a></li>
+          <li><span class="contact-label">LinkedIn</span><a href="https://www.linkedin.com/in/rachelzhengjiayi" target="_blank" rel="noopener">linkedin.com/in/rachelzhengjiayi</a></li>
+          <li><span class="contact-label">Location</span><span>20 Washington Pl, Providence, RI</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Rachel Zheng — Curator &amp; Design Researcher</p>
+    <p>Providence, RI · 2026</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var VALID_PAGES = [  'home',
+  'about',
+  'practice',
+  'spatial',
+  'graphic',
+  'experience',
+  'education',
+  'contact'];
+    var pages = document.querySelectorAll('.page');
+    var navLinks = document.querySelectorAll('[data-nav]');
+    var body = document.body;
+
+    function setNavHeight(){
+      var nav = document.querySelector('.site-nav');
+      if(nav){ document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
+    }
+
+    function showProject(base, slug){
+      var page = document.getElementById('page-' + base);
+      if(!page){ return; }
+      var list = page.querySelector('.project-list');
+      var found = false;
+      page.querySelectorAll('.project-detail').forEach(function(d){
+        var on = !!slug && d.id === 'project-' + slug;
+        d.hidden = !on;
+        if(on){ found = true; }
+      });
+      if(list){ list.hidden = found; }
+    }
+
+    function showPage(id){
+      var parts = id.split('/');
+      var base = parts[0];
+      var sub = parts[1] || null;
+      if(VALID_PAGES.indexOf(base) === -1){ base = 'home'; sub = null; }
+      pages.forEach(function(p){
+        p.hidden = (p.id !== 'page-' + base);
+      });
+      body.classList.toggle('is-home', base === 'home');
+      navLinks.forEach(function(a){
+        a.classList.toggle('active', a.dataset.nav === base);
+      });
+      showProject(base, sub);
+      window.scrollTo(0, 0);
+    }
+
+    /* project cards & pager links */
+    document.addEventListener('click', function(e){
+      var link = e.target.closest('[data-project]');
+      if(!link){ return; }
+      e.preventDefault();
+      var v = link.dataset.project;
+      var id = v.indexOf('/') === -1 ? 'practice/' + v : v;
+      history.pushState(null, '', '#' + id);
+      showPage(id);
+    });
+
+    window.addEventListener('popstate', function(){
+      showPage((location.hash || '#home').slice(1));
+    });
+
+    navLinks.forEach(function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        var id = a.dataset.nav;
+        history.replaceState(null, '', '#' + id);
+        showPage(id);
+      });
+    });
+
+    window.addEventListener('resize', setNavHeight);
+    setNavHeight();
+
+    var initial = (location.hash || '#home').slice(1);
+    showPage(initial);
+
+    /* mouse-interactive hero */
+    /* mouse-interactive hero */
+var heroCard = document.getElementById('heroCard');
+var glow = document.getElementById('cursorGlow');
+var rippleLayer = document.getElementById('rippleLayer');
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var lastRippleX = 0;
+var lastRippleY = 0;
+var lastRippleTime = 0;
+
+if(heroCard && !reduceMotion){
+
+  heroCard.addEventListener('mousemove', function(e){
+
+    var rect = heroCard.getBoundingClientRect();
+
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+
+    /* Move the soft glowing circle */
+    if(glow){
+      glow.style.left = x + 'px';
+      glow.style.top = y + 'px';
+      glow.style.opacity = '1';
+    }
+
+    /* Create a subtle ripple */
+    var now = Date.now();
+
+    var distance = Math.hypot(
+      x - lastRippleX,
+      y - lastRippleY
+    );
+
+    if(distance < 55 || now - lastRippleTime < 180){
+      return;
+    }
+
+    lastRippleX = x;
+    lastRippleY = y;
+    lastRippleTime = now;
+
+    if(rippleLayer){
+
+      var ripple = document.createElement('div');
+
+      ripple.className = 'ripple';
+
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+
+      rippleLayer.appendChild(ripple);
+
+      ripple.addEventListener('animationend', function(){
+        ripple.remove();
+      });
+
+    }
+
+  });
+
+  heroCard.addEventListener('mouseleave', function(){
+
+    if(glow){
+      glow.style.opacity = '0';
+    }
+
+  });
+
+}
+  })();
+</script>
+
+</body>
+</html>
